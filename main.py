@@ -1,3 +1,6 @@
+'''
+@author Hexadigital
+'''
 
 def GenerateDeck():
 	zeroes = [["Green", "0"], ["Blue", "0"], ["Yellow", "0"], ["Red", "0"]]
@@ -8,6 +11,9 @@ def GenerateDeck():
 	for color in colors:
 		for value in values:
 			deck += [[color, value]]
+	deck += zeroes
+	for i in range(0,4):
+		deck += wilds
 	return deck
 
 
