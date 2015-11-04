@@ -1,7 +1,7 @@
 '''
 @author Hexadigital
 '''
-from random import randint
+from random import randint, choice
 from colorama import init, Fore, Style
 from termcolor import colored
 from time import sleep
@@ -49,11 +49,15 @@ def DrawCard():
 	
 def TryToPlayCard(hand, tobeplayed, topcard):
 	actualcard = [tobeplayed[0].capitalize(), tobeplayed[1]]
-	print actualcard
 	if actualcard in hand:
 		return isValidCard(actualcard, topcard)
-	return false
-	
+	return False
+
+def P1PlayCard(tobeplayed):
+	card = [tobeplayed[0].capitalize(), tobeplayed[1]]
+	p1hand.remove(card)
+	print("You place the " + PrettifyCards([card]) + " on the table.")
+	tablecard = card
 
 def PrettifyCards(listofcards):
 	returnstring = ''
@@ -100,7 +104,7 @@ sleep(3)
 print("\nYou start. You look at your hand:")'''
 print(PrettifyCards(p1hand))
 while True:
-	playcard = raw_input("What card would you like to play?: ").split()
-	if TryToPlayCard(p1hand, playcard, tablecard):
+	tempcard = raw_input("What card would you like to play?: ").split()
+	if TryToPlayCard(p1hand, tempcard, tablecard):
 		break
-print("You place the " + PrettifyCards([p1hand[0]]) + " on the table.")
+P1PlayCard(tempcard)
