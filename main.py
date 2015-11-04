@@ -45,7 +45,7 @@ def isValidCard(tobeplayed, topcard):
 def DrawCard():
 	randcard = UnoDeck[randint(0, len(UnoDeck) - 1)]
 	UnoDeck.remove(randcard)
-	return [randcard]
+	return randcard
 
 def PrettifyCards(listofcards):
 	returnstring = ''
@@ -77,7 +77,6 @@ sleep(3)
 print("You watch as he " + Style.BRIGHT + colored("lights", lightercolor[randint(0,1)]) + Style.RESET_ALL + " a cigarette to calm his nerves.")
 sleep(3)
 p1hand = GenerateHand()
-print PrettifyCards([p1hand[0]])
 p2hand = GenerateHand()
 p3hand = GenerateHand()
 p4hand = GenerateHand()
@@ -86,14 +85,15 @@ sleep(1)
 print("You pick your cards up, but don't look at them just yet.")
 sleep(2)
 tablecard = DrawCard()
-print("The dealer places a " + PrettifyCards(tablecard) + " in the centre of the table.")
+print tablecard
+print("The dealer places a " + PrettifyCards([tablecard]) + " in the centre of the table.")
 sleep(2)
 print("The scent of smoke hits your nose. It's familiar, yet unwanted.")
 sleep(3)
 print("\nYou start. You look at your hand:")
 print(PrettifyCards(p1hand))
-print("The validity of " + PrettifyCards([p1hand[0]]) + " is " + str(isValidCard([p1hand[0]], [tablecard])) + ".")
-print("The validity of " + PrettifyCards([p1hand[1]]) + " is " + str(isValidCard([p1hand[1]], [tablecard])) + ".")
-print("The validity of " + PrettifyCards([p1hand[2]]) + " is " + str(isValidCard([p1hand[2]], [tablecard])) + ".")
-print("The validity of " + PrettifyCards([p1hand[3]]) + " is " + str(isValidCard([p1hand[3]], [tablecard])) + ".")
-print("The validity of " + PrettifyCards([p1hand[4]]) + " is " + str(isValidCard([p1hand[4]], [tablecard])) + ".")
+print("The validity of " + PrettifyCards([p1hand[0]]) + " is " + str(isValidCard(p1hand[0], tablecard)) + ".")
+print("The validity of " + PrettifyCards([p1hand[1]]) + " is " + str(isValidCard(p1hand[1], tablecard)) + ".")
+print("The validity of " + PrettifyCards([p1hand[2]]) + " is " + str(isValidCard(p1hand[2], tablecard)) + ".")
+print("The validity of " + PrettifyCards([p1hand[3]]) + " is " + str(isValidCard(p1hand[3], tablecard)) + ".")
+print("The validity of " + PrettifyCards([p1hand[4]]) + " is " + str(isValidCard(p1hand[4], tablecard)) + ".")
