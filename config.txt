@@ -1,1 +1,2 @@
+# Should we show the player what cards they can play?
 easymode = True
