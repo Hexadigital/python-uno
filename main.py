@@ -109,7 +109,7 @@ sleep(3)
 print("\nYou start. You look at your hand:")'''
 print(PrettifyCards(p1hand))
 while True:
-	tempcard = raw_input("What card would you like to play?: ").split()
+	tempcard = raw_input("What card would you like to play?: ").split(None, 1)
 	if TryToPlayCard(p1hand, tempcard, tablecard):
 		break
 P1PlayCard(tempcard)
