@@ -34,3 +34,7 @@ class Game:
             return True
         else:
             return False
+
+    def play(self):
+        self._players[self._current_player].play(self)
+        self._current_player = (self.current_player + 1) % len(self._players)
