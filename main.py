@@ -46,6 +46,14 @@ def DrawCard():
 	randcard = UnoDeck[randint(0, len(UnoDeck) - 1)]
 	UnoDeck.remove(randcard)
 	return randcard
+	
+def TryToPlayCard(hand, tobeplayed, topcard):
+	actualcard = tobeplayed.capitalize().split()
+	print actualcard
+	if actualcard in hand:
+		return isValidCard(actualcard, topcard)
+	return false
+	
 
 def PrettifyCards(listofcards):
 	returnstring = ''
@@ -64,36 +72,35 @@ def PrettifyCards(listofcards):
 # Let's start the game!
 init()
 lightercolor = ["yellow", "red"]
-print("Welcome to the world of Uno!")
+'''print("Welcome to the world of Uno!")
 print("You sit down at a table with a few other people.")
-sleep(3)
+sleep(3)'''
 UnoDeck = GenerateDeck()
-print("The dealer begins to shuffle the deck.")
+'''print("The dealer begins to shuffle the deck.")
 sleep(1)
 print("\nWhile you are waiting, you examine the other players.")
 sleep(5)
 print("Two of them seem to be composed, but the other is a nervous wreck.")
 sleep(3)
 print("You watch as he " + Style.BRIGHT + colored("lights", lightercolor[randint(0,1)]) + Style.RESET_ALL + " a cigarette to calm his nerves.")
-sleep(3)
+sleep(3)'''
 p1hand = GenerateHand()
 p2hand = GenerateHand()
 p3hand = GenerateHand()
 p4hand = GenerateHand()
-print("\nThe dealer gives everyone their hands.")
+'''print("\nThe dealer gives everyone their hands.")
 sleep(1)
 print("You pick your cards up, but don't look at them just yet.")
-sleep(2)
+sleep(2)'''
 tablecard = DrawCard()
-print tablecard
 print("The dealer places a " + PrettifyCards([tablecard]) + " in the centre of the table.")
-sleep(2)
+'''sleep(2)
 print("The scent of smoke hits your nose. It's familiar, yet unwanted.")
 sleep(3)
-print("\nYou start. You look at your hand:")
+print("\nYou start. You look at your hand:")'''
 print(PrettifyCards(p1hand))
-print("The validity of " + PrettifyCards([p1hand[0]]) + " is " + str(isValidCard(p1hand[0], tablecard)) + ".")
-print("The validity of " + PrettifyCards([p1hand[1]]) + " is " + str(isValidCard(p1hand[1], tablecard)) + ".")
-print("The validity of " + PrettifyCards([p1hand[2]]) + " is " + str(isValidCard(p1hand[2], tablecard)) + ".")
-print("The validity of " + PrettifyCards([p1hand[3]]) + " is " + str(isValidCard(p1hand[3], tablecard)) + ".")
-print("The validity of " + PrettifyCards([p1hand[4]]) + " is " + str(isValidCard(p1hand[4], tablecard)) + ".")
+while True:
+	playcard = input("What card would you like to play?: ")
+	if TryToPlayCard(p1hand, playcard, tablecard):
+		break
+print("You place the " + PrettifyCards([p1hand[0]]) + " on the table.")
