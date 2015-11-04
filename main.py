@@ -80,6 +80,11 @@ def getValidCards(hand):
 		if isValidCard(i):
 			valids += [i]
 	return valids
+	
+def CheckSpecial(card):
+	global reverse
+	if card[1] == "Reverse":
+		reverse = not reverse
 
 def P1PlayCard(p1card):
 	global p1hand
@@ -94,6 +99,8 @@ def P1PlayCard(p1card):
 			p1card[0] = colorchoice
 		# Print out a message to let the player know what happened
 		print("You place a " + PrettifyCards([p1card]) + " on the table.")
+		# Check to see if the card is special or not
+		CheckSpecial(p1card)
 		# Update the card on the table
 		tablecard = p1card
 	
@@ -112,6 +119,8 @@ def P2PlayCard(p2card):
 			p2card[0] = max(handcolors, key=handcolors.count)
 		# Print out a message to let the player know what happened
 		print("The guy on your left placed a " + PrettifyCards([p2card]) + " on the table.")
+		# Check to see if the card is special or not
+		CheckSpecial(p2card)
 		# Update the card on the table
 		tablecard = p2card
 	
@@ -130,6 +139,8 @@ def P3PlayCard(p3card):
 			p3card[0] = max(handcolors, key=handcolors.count)
 		# Print out a message to let the player know what happened
 		print("The lady across from you placed a " + PrettifyCards([p3card]) + " on the table.")
+		# Check to see if the card is special or not
+		CheckSpecial(p3card)
 		# Update the card on the table
 		tablecard = p3card
 	
@@ -148,6 +159,8 @@ def P4PlayCard(p4card):
 			p4card[0] = max(handcolors, key=handcolors.count)
 		# Print out a message to let the player know what happened
 		print("The guy on your right placed a " + PrettifyCards([p4card]) + " on the table.")
+		# Check to see if the card is special or not
+		CheckSpecial(p4card)
 		# Update the card on the table
 		tablecard = p4card
 	
@@ -313,7 +326,7 @@ while len(p1hand) != 0 and len(p2hand) != 0 and len(p3hand) != 0 and len(p4hand)
 		turncounter += 1
 	else:
 		turncounter -= 1
-	if turncounter == 0:
-		turncounter = 4
-	elif turncounter == 5:
-		turncounter = 1
+	if turncounter < 1:
+		turncounter += 4
+	elif turncounter > 4:
+		turncounter -= 4
