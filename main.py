@@ -41,12 +41,12 @@ def GenerateHand():
 	# Give the player their hand
 	return hand
 	
-def isValidCard(tobeplayed, topcard):
-	# Colorless cards can be played anytime
+def isValidCard(tobeplayed):
+	# Colourless cards can be played any time
 	if tobeplayed[0] == "Colorless":
 		return True
 	# If the values or colours are the same, it can be played
-	if tobeplayed[0] == topcard[0] or tobeplayed[1] == topcard[1]:
+	if tobeplayed[0] == tablecard[0] or tobeplayed[1] == tablecard[1]:
 		return True
 	# The card must not be the same
 	else:
@@ -60,13 +60,13 @@ def DrawCard():
 	# And give that card back
 	return randcard
 	
-def TryToPlayCard(hand, tobeplayed, topcard):
+def TryToPlayCard(hand, tobeplayed):
 	# Fix the input into a proper card type
 	actualcard = [tobeplayed[0].capitalize(), tobeplayed[1]]
 	# Check if the card is in the hand
 	if actualcard in hand:
 		# If it is, can it be played?
-		if isValidCard(actualcard, topcard):
+		if isValidCard(actualcard):
 			return True
 		else:
 			print("That card can't be played!\n")
@@ -74,36 +74,83 @@ def TryToPlayCard(hand, tobeplayed, topcard):
 	print("That card isn't in your hand!\n")
 	return False
 	
-def getValidCards(hand, topcard):
+def getValidCards(hand):
 	valids = []
 	for i in hand:
-		if isValidCard(i, topcard):
+		if isValidCard(i):
 			valids += [i]
 	return valids
 
 def P1PlayCard(tobeplayed):
 	# Fix the input into a proper card type
-	card = [tobeplayed[0].capitalize(), tobeplayed[1]]
+	p1card = [tobeplayed[0].capitalize(), tobeplayed[1]]
 	# Remove the card from the player's hand
-	p1hand.remove(card)
+	p1hand.remove(p1card)
 	# Print out a message to let the player know what happened
-	print("You place the " + PrettifyCards([card]) + " on the table.")
+	print("You place the " + PrettifyCards([p1card]) + " on the table.")
 	# Update the card on the table
-	tablecard = card
+	return p1card
+	
+def P2PlayCard(p2card):
+	# Remove the card from the player's hand
+	p2hand.remove(p2card)
+	# Print out a message to let the player know what happened
+	print("The guy on your left placed the " + PrettifyCards([p2card]) + " on the table.")
+	# Update the card on the table
+	return p2card
+	
+def P3PlayCard(p3card):
+	# Remove the card from the player's hand
+	p3hand.remove(p3card)
+	# Print out a message to let the player know what happened
+	print("The lady across from you placed the " + PrettifyCards([p3card]) + " on the table.")
+	# Update the card on the table
+	return p3card
+	
+def P4PlayCard(p4card):
+	# Remove the card from the player's hand
+	p4hand.remove(p4card)
+	# Print out a message to let the player know what happened
+	print("The guy on your right placed the " + PrettifyCards([p4card]) + " on the table.")
+	# Update the card on the table
+	return p4card
 	
 def P1Turn():
+	# Precursor
+	print("\nYou look at your hand:")
 	# Print out the players hand, complete with colours
 	print(PrettifyCards(p1hand))
 	if easymode:
-		print("You can play: " + PrettifyCards(getValidCards(p1hand, tablecard)))
+		print("You can play: " + PrettifyCards(getValidCards(p1hand)))
 	# Loop until they choose a valid card (in hand, and can be played)
 	while True:
 		tempcard = raw_input("What card would you like to play?: ").split(None, 1)
 		# See if they can play that card
-		if TryToPlayCard(p1hand, tempcard, tablecard):
+		if TryToPlayCard(p1hand, tempcard):
 			break
 	# They picked a valid card! Let's play it.
-	P1PlayCard(tempcard)
+	return P1PlayCard(tempcard)
+	
+def P2Turn():
+	sleep(3)
+	# Pick a random card from the list of valid cards
+	tempcard = choice(getValidCards(p2hand))
+	# Let's play it
+	return P2PlayCard(tempcard)
+	
+def P3Turn():
+	sleep(3)
+	# Pick a random card from the list of valid cards
+	tempcard = choice(getValidCards(p3hand))
+	# Let's play it
+	return P3PlayCard(tempcard)
+
+def P4Turn():
+	sleep(3)
+	# Pick a random card from the list of valid cards
+	tempcard = choice(getValidCards(p4hand))
+	# Let's play it
+	return P4PlayCard(tempcard)
 
 def PrettifyCards(listofcards):
 	returnstring = ''
@@ -159,7 +206,9 @@ tablecard = DrawCard()
 print("The dealer places a " + PrettifyCards([tablecard]) + " in the centre of the table.")
 '''sleep(2)
 print("The scent of smoke hits your nose. It's familiar, yet unwanted.")
-sleep(3)
-print("\nYou start. You look at your hand:")'''
+sleep(3)'''
 while len(p1hand) != 0 and len(p2hand) != 0 and len(p3hand) != 0 and len(p4hand) != 0:
-	P1Turn()
+	tablecard = P1Turn()
+	tablecard = P2Turn()
+	tablecard = P3Turn()
+	tablecard = P4Turn()
