@@ -5,6 +5,7 @@ from random import randint, choice, shuffle
 from colorama import init, Fore, Style
 from termcolor import colored
 from time import sleep
+from string import capwords
 
 def GenerateDeck():
 	# Specify card types, wilds, and zeroes
@@ -62,7 +63,7 @@ def DrawCard():
 	
 def TryToPlayCard(hand, tobeplayed):
 	# Fix the input into a proper card type
-	actualcard = [tobeplayed[0].capitalize(), tobeplayed[1]]
+	actualcard = [capwords(tobeplayed[0]), capwords(tobeplayed[1])]
 	# Check if the card is in the hand
 	if actualcard in hand:
 		# If it is, can it be played?
@@ -83,11 +84,11 @@ def getValidCards(hand):
 
 def P1PlayCard(tobeplayed):
 	# Fix the input into a proper card type
-	p1card = [tobeplayed[0].capitalize(), tobeplayed[1]]
+	p1card = [capwords(tobeplayed[0]), capwords(tobeplayed[1])]
 	# Remove the card from the player's hand
 	p1hand.remove(p1card)
 	# Print out a message to let the player know what happened
-	print("You place the " + PrettifyCards([p1card]) + " on the table.")
+	print("You place a " + PrettifyCards([p1card]) + " on the table.")
 	# Update the card on the table
 	return p1card
 	
@@ -95,7 +96,7 @@ def P2PlayCard(p2card):
 	# Remove the card from the player's hand
 	p2hand.remove(p2card)
 	# Print out a message to let the player know what happened
-	print("The guy on your left placed the " + PrettifyCards([p2card]) + " on the table.")
+	print("The guy on your left placed a " + PrettifyCards([p2card]) + " on the table.")
 	# Update the card on the table
 	return p2card
 	
@@ -103,7 +104,7 @@ def P3PlayCard(p3card):
 	# Remove the card from the player's hand
 	p3hand.remove(p3card)
 	# Print out a message to let the player know what happened
-	print("The lady across from you placed the " + PrettifyCards([p3card]) + " on the table.")
+	print("The lady across from you placed a " + PrettifyCards([p3card]) + " on the table.")
 	# Update the card on the table
 	return p3card
 	
@@ -111,7 +112,7 @@ def P4PlayCard(p4card):
 	# Remove the card from the player's hand
 	p4hand.remove(p4card)
 	# Print out a message to let the player know what happened
-	print("The guy on your right placed the " + PrettifyCards([p4card]) + " on the table.")
+	print("The guy on your right placed a " + PrettifyCards([p4card]) + " on the table.")
 	# Update the card on the table
 	return p4card
 	
@@ -120,8 +121,9 @@ def P1Turn():
 	print("\nYou look at your hand:")
 	# Print out the players hand, complete with colours
 	print(PrettifyCards(p1hand))
+	validcards = getValidCards(p1hand)
 	if easymode:
-		print("You can play: " + PrettifyCards(getValidCards(p1hand)))
+		print("You can play: " + PrettifyCards(validcards))
 	# Loop until they choose a valid card (in hand, and can be played)
 	while True:
 		tempcard = raw_input("What card would you like to play?: ").split(None, 1)
@@ -133,22 +135,25 @@ def P1Turn():
 	
 def P2Turn():
 	sleep(3)
+	validcards = getValidCards(p2hand)
 	# Pick a random card from the list of valid cards
-	tempcard = choice(getValidCards(p2hand))
+	tempcard = choice(validcards)
 	# Let's play it
 	return P2PlayCard(tempcard)
 	
 def P3Turn():
 	sleep(3)
+	validcards = getValidCards(p3hand)
 	# Pick a random card from the list of valid cards
-	tempcard = choice(getValidCards(p3hand))
+	tempcard = choice(validcards)
 	# Let's play it
 	return P3PlayCard(tempcard)
 
 def P4Turn():
 	sleep(3)
+	validcards = getValidCards(p4hand)
 	# Pick a random card from the list of valid cards
-	tempcard = choice(getValidCards(p4hand))
+	tempcard = choice(validcards)
 	# Let's play it
 	return P4PlayCard(tempcard)
 
