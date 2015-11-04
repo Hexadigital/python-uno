@@ -48,3 +48,7 @@ class Card:
             return True
         else:
             return False
+
+    def __str__(self):
+        return ("%s %s" % (self.card_colors[self._color],
+                           self.card_names[self._number]))
