@@ -4,6 +4,7 @@
 from random import randint
 from colorama import init, Fore, Style
 from termcolor import colored
+from time import sleep
 
 def GenerateDeck():
 	zeroes = [["Green", "0"], ["Blue", "0"], ["Yellow", "0"], ["Red", "0"]]
@@ -54,9 +55,16 @@ def PrettifyCards(listofcards):
 			
 # Let's start the game!
 init()
-UnoDeck = GenerateDeck()
-p1hand = GenerateHand()
 numplayers = 0
 print("Welcome to the world of Uno!")
-print("There are 3 other players besides yourself.")
+print("You sit down at a table with a few other people.")
+sleep(3)
+UnoDeck = GenerateDeck()
+print("The dealer begins to shuffle the deck.")
+sleep(1)
+print("While you are waiting, you examine the other players.")
+sleep(5)
+print("Two of them seem to be composed, but the other is a nervous wreck.")
+sleep(3)
+print("You watch as he " + Style.BRIGHT + colored("lights", "red") + Style.RESET_ALL + " a cigarette to calm his nerves.")
 
