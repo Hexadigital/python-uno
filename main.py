@@ -91,6 +91,11 @@ def P1PlayCard(tobeplayed):
 	if tobeplayed in p1hand and isValidCard(p1card):
 		# Remove the card from the player's hand
 		p1hand.remove(p1card)
+		if p1card[0] == "Colorless":
+			colorchoice = ""
+			while colorchoice not in ["Green", "Blue", "Yellow", "Red"]:
+				colorchoice = capwords(raw_input("What colour would you like to set it to? "))
+			p1card[0] = colorchoice
 		# Print out a message to let the player know what happened
 		print("You place a " + PrettifyCards([p1card]) + " on the table.")
 		# Update the card on the table
@@ -148,7 +153,7 @@ def P1Turn():
 			print("You can play: " + PrettifyCards(getValidCards(p1hand)))
 		# Loop until they choose a valid card (in hand, and can be played)
 		while True:
-			tempcard = raw_input("What card would you like to play?: ").split(None, 1)
+			tempcard = raw_input("What card would you like to play? ").split(None, 1)
 			# See if they can play that card
 			if TryToPlayCard(p1hand, tempcard):
 				break
