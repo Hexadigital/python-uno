@@ -44,10 +44,10 @@ def GenerateHand():
 	
 def isValidCard(tobeplayed):
 	global tablecard
-	# Colourless cards can be played any time
+	# colorless cards can be played any time
 	if tobeplayed[0] == "Colorless":
 		return True
-	# If the values or colours are the same, it can be played
+	# If the values or colors are the same, it can be played
 	if tobeplayed[0] == tablecard[0] or tobeplayed[1] == tablecard[1]:
 		return True
 	# The card must not be the same
@@ -76,13 +76,17 @@ def TryToPlayCard(hand, tobeplayed):
 	
 def getValidCards(hand):
 	valids = []
+	# For each card that is in the hand...
 	for i in hand:
+		# If the card is playable...
 		if isValidCard(i):
+			# Let's add it to a list of playable cards!
 			valids += [i]
 	return valids
 	
 def CheckSpecial(card):
 	global reverse
+	# If the card is a Reverse, reverse the turn order
 	if card[1] == "Reverse":
 		reverse = not reverse
 
@@ -92,10 +96,12 @@ def P1PlayCard(p1card):
 	if p1card in p1hand and isValidCard(p1card):
 		# Remove the card from the player's hand
 		p1hand.remove(p1card)
+		# If the card is colorless, let's ask what color to use
 		if p1card[0] == "Colorless":
 			colorchoice = ""
+			# Unless the player specifies a valid color, keep asking them
 			while colorchoice not in ["Green", "Blue", "Yellow", "Red"]:
-				colorchoice = capwords(raw_input("What colour would you like to set it to? "))
+				colorchoice = capwords(raw_input("What color would you like to set it to? "))
 			p1card[0] = colorchoice
 		# Print out a message to let the player know what happened
 		print("You place a " + PrettifyCards([p1card]) + " on the table.")
@@ -110,12 +116,16 @@ def P2PlayCard(p2card):
 	if p2card in p2hand and isValidCard(p2card):
 		# Remove the card from the player's hand
 		p2hand.remove(p2card)
+		# If the card is colorless, let's decide what color to pick
 		if p2card[0] == "Colorless":
 			handcolors = []
 			for i in p2hand:
+				# Make a list of all the colors in the CPU's hand
 				handcolors += p2hand[0]
+				# Remove all the Colorless colors
 				while "Colorless" in handcolors:
 					handcolors.remove("Colorless")
+			# Set the wild card to whatever the CPU has the most of
 			p2card[0] = max(handcolors, key=handcolors.count)
 		# Print out a message to let the player know what happened
 		print("The guy on your left placed a " + PrettifyCards([p2card]) + " on the table.")
@@ -130,12 +140,16 @@ def P3PlayCard(p3card):
 	if p3card in p3hand and isValidCard(p3card):
 		# Remove the card from the player's hand
 		p3hand.remove(p3card)
+		# If the card is colorless, let's decide what color to pick
 		if p3card[0] == "Colorless":
 			handcolors = []
 			for i in p3hand:
+				# Make a list of all the colors in the CPU's hand
 				handcolors += p3hand[0]
+				# Remove all the Colorless colors
 				while "Colorless" in handcolors:
 					handcolors.remove("Colorless")
+			# Set the wild card to whatever the CPU has the most of
 			p3card[0] = max(handcolors, key=handcolors.count)
 		# Print out a message to let the player know what happened
 		print("The lady across from you placed a " + PrettifyCards([p3card]) + " on the table.")
@@ -150,12 +164,16 @@ def P4PlayCard(p4card):
 	if p4card in p4hand and isValidCard(p4card):
 		# Remove the card from the player's hand
 		p4hand.remove(p4card)
+		# If the card is colorless, let's decide what color to pick
 		if p4card[0] == "Colorless":
 			handcolors = []
 			for i in p4hand:
+				# Make a list of all the colors in the CPU's hand
 				handcolors += p4hand[0]
+				# Remove all the Colorless colors
 				while "Colorless" in handcolors:
 					handcolors.remove("Colorless")
+			# Set the wild card to whatever the CPU has the most of
 			p4card[0] = max(handcolors, key=handcolors.count)
 		# Print out a message to let the player know what happened
 		print("The guy on your right placed a " + PrettifyCards([p4card]) + " on the table.")
@@ -169,7 +187,7 @@ def P1Turn():
 	sleep(3)
 	# Precursor
 	print("\nYou look at your hand:")
-	# Print out the players hand, complete with colours
+	# Print out the players hand, complete with colors
 	print(PrettifyCards(p1hand))
 	# If there are no playable cards in the hand...
 	if getValidCards(p1hand) == []:
@@ -179,6 +197,7 @@ def P1Turn():
 		print("You draw a " + PrettifyCards([newcard]) + " from the deck.")
 		P1PlayCard(newcard)
 	else:
+		# Should we print out the list of playable cards?
 		if easymode:
 			print("You can play: " + PrettifyCards(getValidCards(p1hand)))
 		# Loop until they choose a valid card (in hand, and can be played)
@@ -242,10 +261,10 @@ def PrettifyCards(listofcards):
 	# For every card given...
 	for i in range(0, len(listofcards)):
 		i -= 1
-		# If the card is blue, change the colour to cyan (it looks better)
+		# If the card is blue, change the color to cyan (it looks better)
 		if listofcards[i][0] == "Blue":
 			returnstring += (Style.BRIGHT + colored(listofcards[i][0] + " " + listofcards[i][1], 'cyan') + Style.RESET_ALL)
-		# If the card is colorless, print it out with the system's default colour
+		# If the card is colorless, print it out with the system's default color
 		elif listofcards[i][0] != "Colorless":
 			returnstring += (Style.BRIGHT + colored(listofcards[i][0] + " " + listofcards[i][1], listofcards[i][0].lower()) + Style.RESET_ALL)
 		# Otherwise, print it as the color that it is
@@ -279,7 +298,8 @@ execfile('config.txt')
 
 # Let's start the game!
 init()
-lightercolor = ["yellow", "red"]
+turncounter = 1
+reverse = False
 # Generate the deck
 UnoDeck = GenerateDeck()
 # Generate the players' hands
@@ -289,6 +309,7 @@ p3hand = GenerateHand()
 p4hand = GenerateHand()
 
 # A short intro
+lightercolor = ["yellow", "red"]
 '''print("Welcome to the world of Uno!")
 print("You sit down at a table with a few other people.")
 sleep(3)
@@ -310,9 +331,9 @@ print("The dealer places a " + PrettifyCards([tablecard]) + " in the centre of t
 '''sleep(2)
 print("The scent of smoke hits your nose. It's familiar, yet unwanted.")
 sleep(3)'''
-turncounter = 1
-reverse = False
+# While everyone has cards, play the game
 while len(p1hand) != 0 and len(p2hand) != 0 and len(p3hand) != 0 and len(p4hand) != 0:
+	# Figure out whose turn it is
 	if turncounter == 1:
 		P1Turn()
 	elif turncounter == 2:
@@ -322,10 +343,13 @@ while len(p1hand) != 0 and len(p2hand) != 0 and len(p3hand) != 0 and len(p4hand)
 	elif turncounter == 4:
 		P4Turn()
 		RandomEvent()
+	# Adjust the counter to reflect the next person's turn
 	if reverse == False:
 		turncounter += 1
 	else:
 		turncounter -= 1
+	# If the counter is above or below the number of players
+	# then we should adjust it so that it loops back around
 	if turncounter < 1:
 		turncounter += 4
 	elif turncounter > 4:
