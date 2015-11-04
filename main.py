@@ -222,21 +222,20 @@ def PrettifyCards(listofcards):
 
 def RandomEvent():
 	chance = randint(0, 100)
-	if chance == 0:
-		print("The dealer smiles.")
 	if chance == 1:
-		print("You adjust your posture.")
+		print("The dealer smiles.")
 	if chance == 2:
-		print("You feel a " + Style.BRIGHT + colored("chill", 'cyan') + Style.RESET_ALL + " run up your back.")
+		print("You adjust your posture.")
 	if chance == 3:
-		print("The lady glances around nervously.")
+		print("You feel a " + Style.BRIGHT + colored("chill", 'cyan') + Style.RESET_ALL + " run up your back.")
 	if chance == 4:
-		print("The bartender looks away once you notice him staring at you.")
+		print("The lady glances around nervously.")
 	if chance == 5:
-		print("The man's cigarette isn't " + Style.BRIGHT + colored("burning", lightercolor[randint(0,1)]) + Style.RESET_ALL + " down.")
+		print("The bartender looks away once you notice him staring.")
 	if chance == 6:
+		print("The man's cigarette isn't " + Style.BRIGHT + colored("burning", lightercolor[randint(0,1)]) + Style.RESET_ALL + " down.")
+	if chance == 7:
 		print("You hear someone call your name, but you must have been mistaken.")
-		print("Nobody here knows your name.")
 
 # Load the config
 execfile('config.txt')	
