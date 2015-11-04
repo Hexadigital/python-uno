@@ -297,9 +297,23 @@ print("The dealer places a " + PrettifyCards([tablecard]) + " in the centre of t
 '''sleep(2)
 print("The scent of smoke hits your nose. It's familiar, yet unwanted.")
 sleep(3)'''
+turncounter = 1
+reverse = False
 while len(p1hand) != 0 and len(p2hand) != 0 and len(p3hand) != 0 and len(p4hand) != 0:
-	P1Turn()
-	P2Turn()
-	P3Turn()
-	P4Turn()
-	RandomEvent()
+	if turncounter == 1:
+		P1Turn()
+	elif turncounter == 2:
+		P2Turn()
+	elif turncounter == 3:
+		P3Turn()
+	elif turncounter == 4:
+		P4Turn()
+		RandomEvent()
+	if reverse == False:
+		turncounter += 1
+	else:
+		turncounter -= 1
+	if turncounter == 0:
+		turncounter = 4
+	elif turncounter == 5:
+		turncounter = 1
