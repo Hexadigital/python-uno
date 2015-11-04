@@ -41,5 +41,5 @@ class Card:
         return self._number
 
     def __eq__(self, other):
-        if other.get_color == 0:
+        if other.get_color() == 0:
             return True
