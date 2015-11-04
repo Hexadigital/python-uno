@@ -48,7 +48,7 @@ def DrawCard():
 	return randcard
 	
 def TryToPlayCard(hand, tobeplayed, topcard):
-	actualcard = tobeplayed.capitalize().split()
+	actualcard = [tobeplayed[0].capitalize(), tobeplayed[1]]
 	print actualcard
 	if actualcard in hand:
 		return isValidCard(actualcard, topcard)
@@ -100,7 +100,7 @@ sleep(3)
 print("\nYou start. You look at your hand:")'''
 print(PrettifyCards(p1hand))
 while True:
-	playcard = input("What card would you like to play?: ")
+	playcard = raw_input("What card would you like to play?: ").split()
 	if TryToPlayCard(p1hand, playcard, tablecard):
 		break
 print("You place the " + PrettifyCards([p1hand[0]]) + " on the table.")
