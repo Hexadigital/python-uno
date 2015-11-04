@@ -1,4 +1,5 @@
 '''
+Plays UNO!
 @author Hexadigital
 '''
 from random import randint, choice, shuffle
