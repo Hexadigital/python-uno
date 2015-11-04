@@ -63,12 +63,10 @@ def DrawCard():
 	return randcard
 	
 def TryToPlayCard(hand, tobeplayed):
-	# Fix the input into a proper card type
-	actualcard = [capwords(tobeplayed[0]), capwords(tobeplayed[1])]
 	# Check if the card is in the hand
-	if actualcard in hand:
+	if tobeplayed in hand:
 		# If it is, can it be played?
-		if isValidCard(actualcard):
+		if isValidCard(tobeplayed):
 			return True
 		else:
 			print("You can't place that card on the table.\n")
@@ -83,12 +81,10 @@ def getValidCards(hand):
 			valids += [i]
 	return valids
 
-def P1PlayCard(tobeplayed):
+def P1PlayCard(p1card):
 	global p1hand
 	global tablecard
-	# Fix the input into a proper card type
-	p1card = [capwords(tobeplayed[0]), capwords(tobeplayed[1])]
-	if tobeplayed in p1hand and isValidCard(p1card):
+	if p1card in p1hand and isValidCard(p1card):
 		# Remove the card from the player's hand
 		p1hand.remove(p1card)
 		if p1card[0] == "Colorless":
@@ -107,6 +103,13 @@ def P2PlayCard(p2card):
 	if p2card in p2hand and isValidCard(p2card):
 		# Remove the card from the player's hand
 		p2hand.remove(p2card)
+		if p2card[0] == "Colorless":
+			handcolors = []
+			for i in p2hand:
+				handcolors += p2hand[0]
+				while "Colorless" in handcolors:
+					handcolors.remove("Colorless")
+			p2card[0] = max(handcolors, key=handcolors.count)
 		# Print out a message to let the player know what happened
 		print("The guy on your left placed a " + PrettifyCards([p2card]) + " on the table.")
 		# Update the card on the table
@@ -118,6 +121,13 @@ def P3PlayCard(p3card):
 	if p3card in p3hand and isValidCard(p3card):
 		# Remove the card from the player's hand
 		p3hand.remove(p3card)
+		if p3card[0] == "Colorless":
+			handcolors = []
+			for i in p3hand:
+				handcolors += p3hand[0]
+				while "Colorless" in handcolors:
+					handcolors.remove("Colorless")
+			p3card[0] = max(handcolors, key=handcolors.count)
 		# Print out a message to let the player know what happened
 		print("The lady across from you placed a " + PrettifyCards([p3card]) + " on the table.")
 		# Update the card on the table
@@ -129,6 +139,13 @@ def P4PlayCard(p4card):
 	if p4card in p4hand and isValidCard(p4card):
 		# Remove the card from the player's hand
 		p4hand.remove(p4card)
+		if p4card[0] == "Colorless":
+			handcolors = []
+			for i in p4hand:
+				handcolors += p4hand[0]
+				while "Colorless" in handcolors:
+					handcolors.remove("Colorless")
+			p4card[0] = max(handcolors, key=handcolors.count)
 		# Print out a message to let the player know what happened
 		print("The guy on your right placed a " + PrettifyCards([p4card]) + " on the table.")
 		# Update the card on the table
@@ -154,11 +171,13 @@ def P1Turn():
 		# Loop until they choose a valid card (in hand, and can be played)
 		while True:
 			tempcard = raw_input("What card would you like to play? ").split(None, 1)
+			# Fix the input into a proper card type
+			propercard = [capwords(tempcard[0]), capwords(tempcard[1])]
 			# See if they can play that card
-			if TryToPlayCard(p1hand, tempcard):
+			if TryToPlayCard(p1hand, propercard):
 				break
 		# They picked a valid card! Let's play it.
-		P1PlayCard(tempcard)
+		P1PlayCard(propercard)
 	
 def P2Turn():
 	global p2hand
