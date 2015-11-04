@@ -33,19 +33,23 @@ def GenerateHand():
 	# Give the player their hand
 	return hand
 	
-def PrintPretty(listofcards):
+def PrettifyCards(listofcards):
+	returnstring = ''
 	for i in range(0, len(listofcards) - 1):
 		if listofcards[i][0] == "Blue":
-			print(Style.BRIGHT + colored(listofcards[i][0] + " " + listofcards[i][1], 'cyan') + Style.RESET_ALL)
+			returnstring += (Style.BRIGHT + colored(listofcards[i][0] + " " + listofcards[i][1], 'cyan') + Style.RESET_ALL)
 		elif listofcards[i][0] != "Colorless":
-			print(Style.BRIGHT + colored(listofcards[i][0] + " " + listofcards[i][1], listofcards[i][0].lower()) + Style.RESET_ALL)
+			returnstring += (Style.BRIGHT + colored(listofcards[i][0] + " " + listofcards[i][1], listofcards[i][0].lower()) + Style.RESET_ALL)
 		else:
-			print(Style.BRIGHT + colored(listofcards[i][0] + " " + listofcards[i][1] + Style.RESET_ALL))
+			returnstring += (Style.BRIGHT + colored(listofcards[i][0] + " " + listofcards[i][1] + Style.RESET_ALL))
+		if i != len(listofcards) - 2:
+			returnstring += ", "
+	return returnstring
 			
 # Let's start the game!
 init()
 UnoDeck = GenerateDeck()
 p1hand = GenerateHand()
-PrintPretty(p1hand)
+print PrettifyCards(p1hand)
 #print("Welcome to the world of Uno!")
 #numplayers = int(input("How many players will be playing today? (0-10): "))
