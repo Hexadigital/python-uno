@@ -33,9 +33,15 @@ def GenerateHand():
 	# Give the player their hand
 	return hand
 	
+def DrawCard():
+	randcard = UnoDeck[randint(0, len(UnoDeck) - 1)]
+	UnoDeck.remove(randcard)
+	return [randcard]
+
 def PrettifyCards(listofcards):
 	returnstring = ''
-	for i in range(0, len(listofcards) - 1):
+	for i in range(0, len(listofcards)):
+		i -= 1
 		if listofcards[i][0] == "Blue":
 			returnstring += (Style.BRIGHT + colored(listofcards[i][0] + " " + listofcards[i][1], 'cyan') + Style.RESET_ALL)
 		elif listofcards[i][0] != "Colorless":
@@ -50,6 +56,7 @@ def PrettifyCards(listofcards):
 init()
 UnoDeck = GenerateDeck()
 p1hand = GenerateHand()
-print PrettifyCards(p1hand)
-#print("Welcome to the world of Uno!")
-#numplayers = int(input("How many players will be playing today? (0-10): "))
+numplayers = 0
+print("Welcome to the world of Uno!")
+print("There are 3 other players besides yourself.")
+
