@@ -84,26 +84,28 @@ def getValidCards(hand):
 	return valids
 
 def P1PlayCard(tobeplayed):
+	global p1hand
+	global tablecard
 	# Fix the input into a proper card type
 	p1card = [capwords(tobeplayed[0]), capwords(tobeplayed[1])]
-	# Remove the card from the player's hand
-	p1hand.remove(p1card)
-	# Print out a message to let the player know what happened
-	print("You place a " + PrettifyCards([p1card]) + " on the table.")
-	# Update the card on the table
-	return p1card
+	if tobeplayed in p1hand and isValidCard(p1card):
+		# Remove the card from the player's hand
+		p1hand.remove(p1card)
+		# Print out a message to let the player know what happened
+		print("You place a " + PrettifyCards([p1card]) + " on the table.")
+		# Update the card on the table
+		tablecard = p1card
 	
 def P2PlayCard(p2card):
 	global p2hand
+	global tablecard
 	if p2card in p2hand and isValidCard(p2card):
 		# Remove the card from the player's hand
 		p2hand.remove(p2card)
 		# Print out a message to let the player know what happened
 		print("The guy on your left placed a " + PrettifyCards([p2card]) + " on the table.")
 		# Update the card on the table
-		return p2card
-	else:
-		return tablecard
+		tablecard = p2card
 	
 def P3PlayCard(p3card):
 	global p3hand
@@ -114,19 +116,18 @@ def P3PlayCard(p3card):
 		# Print out a message to let the player know what happened
 		print("The lady across from you placed a " + PrettifyCards([p3card]) + " on the table.")
 		# Update the card on the table
-		return p3card
-	else:
-		return tablecard
+		tablecard = p3card
 	
 def P4PlayCard(p4card):
 	global p4hand
+	global tablecard
 	if p4card in p4hand and isValidCard(p4card):
 		# Remove the card from the player's hand
 		p4hand.remove(p4card)
 		# Print out a message to let the player know what happened
 		print("The guy on your right placed a " + PrettifyCards([p4card]) + " on the table.")
 		# Update the card on the table
-		return p4card
+		tablecard = p4card
 	
 def P1Turn():
 	global p1hand
@@ -141,7 +142,7 @@ def P1Turn():
 		newcard = DrawCard()
 		p1hand += [newcard]
 		print("You draw a " + PrettifyCards([newcard]) + " from the deck.")
-		return P1PlayCard(newcard)
+		P1PlayCard(newcard)
 	else:
 		if easymode:
 			print("You can play: " + PrettifyCards(getValidCards(p1hand)))
@@ -152,7 +153,7 @@ def P1Turn():
 			if TryToPlayCard(p1hand, tempcard):
 				break
 		# They picked a valid card! Let's play it.
-		return P1PlayCard(tempcard)
+		P1PlayCard(tempcard)
 	
 def P2Turn():
 	global p2hand
@@ -162,12 +163,12 @@ def P2Turn():
 		newcard = DrawCard()
 		p2hand += [newcard]
 		print("The guy on your left drew a card from the deck.")
-		return P2PlayCard(newcard)
+		P2PlayCard(newcard)
 	else:
 		# Pick a random card from the list of valid cards
 		tempcard = choice(getValidCards(p2hand))
 		# Let's play it
-		return P2PlayCard(tempcard)
+		P2PlayCard(tempcard)
 	
 def P3Turn():
 	global p3hand
@@ -177,12 +178,12 @@ def P3Turn():
 		newcard = DrawCard()
 		p3hand += [newcard]
 		print("The lady across from you drew a card from the deck.")
-		return P3PlayCard(newcard)
+		P3PlayCard(newcard)
 	else:
 		# Pick a random card from the list of valid cards
 		tempcard = choice(getValidCards(p3hand))
 		# Let's play it
-		return P3PlayCard(tempcard)
+		P3PlayCard(tempcard)
 
 def P4Turn():
 	global p4hand
@@ -192,12 +193,12 @@ def P4Turn():
 		newcard = DrawCard()
 		p4hand += [newcard]
 		print("The guy on your right drew a card from the deck.")
-		return P4PlayCard(newcard)
+		P4PlayCard(newcard)
 	else:
 		# Pick a random card from the list of valid cards
 		tempcard = choice(getValidCards(p4hand))
 		# Let's play it
-		return P4PlayCard(tempcard)
+		P4PlayCard(tempcard)
 
 def PrettifyCards(listofcards):
 	returnstring = ''
