@@ -43,3 +43,8 @@ class Card:
     def __eq__(self, other):
         if other.get_color() == 0:
             return True
+        elif ((other.get_color() == self._color) or
+              (other.get_number == self._number)):
+            return True
+        else:
+            return False
