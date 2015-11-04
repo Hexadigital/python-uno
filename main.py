@@ -86,9 +86,16 @@ def getValidCards(hand):
 	
 def CheckSpecial(card):
 	global reverse
+	global turncounter
 	# If the card is a Reverse, reverse the turn order
 	if card[1] == "Reverse":
 		reverse = not reverse
+	# If the card is a Skip, skip the next player
+	if card[1] == "Skip":
+		if reverse:
+			turncounter -= 1
+		else:
+			turncounter += 1
 
 def P1PlayCard(p1card):
 	global p1hand
