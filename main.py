@@ -73,6 +73,13 @@ def TryToPlayCard(hand, tobeplayed, topcard):
 			return False
 	print("That card isn't in your hand!\n")
 	return False
+	
+def getValidCards(hand, topcard):
+	valids = []
+	for i in hand:
+		if isValidCard(i, topcard):
+			valids += [i]
+	return valids
 
 def P1PlayCard(tobeplayed):
 	# Fix the input into a proper card type
@@ -87,6 +94,8 @@ def P1PlayCard(tobeplayed):
 def P1Turn():
 	# Print out the players hand, complete with colours
 	print(PrettifyCards(p1hand))
+	if easymode:
+		print("You can play: " + PrettifyCards(getValidCards(p1hand, tablecard)))
 	# Loop until they choose a valid card (in hand, and can be played)
 	while True:
 		tempcard = raw_input("What card would you like to play?: ").split(None, 1)
@@ -115,7 +124,10 @@ def PrettifyCards(listofcards):
 			returnstring += ", "
 	# Return the list of colored cards
 	return returnstring
-			
+
+# Load the config
+execfile('config.txt')	
+
 # Let's start the game!
 init()
 lightercolor = ["yellow", "red"]
