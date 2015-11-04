@@ -1,7 +1,7 @@
 '''
 @author Hexadigital
 '''
-from random import randint, choice
+from random import randint, choice, shuffle
 from colorama import init, Fore, Style
 from termcolor import colored
 from time import sleep
@@ -23,6 +23,8 @@ def GenerateDeck():
 	# Add four of each wild to the deck
 	for i in range(0,4):
 		deck += wilds
+	# Shuffle the deck
+	shuffle(deck)
 	# Return the deck
 	return deck
 	
@@ -81,6 +83,18 @@ def P1PlayCard(tobeplayed):
 	print("You place the " + PrettifyCards([card]) + " on the table.")
 	# Update the card on the table
 	tablecard = card
+	
+def P1Turn():
+	# Print out the players hand, complete with colours
+	print(PrettifyCards(p1hand))
+	# Loop until they choose a valid card (in hand, and can be played)
+	while True:
+		tempcard = raw_input("What card would you like to play?: ").split(None, 1)
+		# See if they can play that card
+		if TryToPlayCard(p1hand, tempcard, tablecard):
+			break
+	# They picked a valid card! Let's play it.
+	P1PlayCard(tempcard)
 
 def PrettifyCards(listofcards):
 	returnstring = ''
@@ -135,13 +149,5 @@ print("The dealer places a " + PrettifyCards([tablecard]) + " in the centre of t
 print("The scent of smoke hits your nose. It's familiar, yet unwanted.")
 sleep(3)
 print("\nYou start. You look at your hand:")'''
-# Print out the players hand, complete with colors
-print(PrettifyCards(p1hand))
-# Loop until they choose a valid card (in hand, and can be played)
-while True:
-	tempcard = raw_input("What card would you like to play?: ").split(None, 1)
-	# See if they can play that card
-	if TryToPlayCard(p1hand, tempcard, tablecard):
-		break
-# They picked a valid card! Let's play it.
-P1PlayCard(tempcard)
+while len(p1hand) != 0 and len(p2hand) != 0 and len(p3hand) != 0 and len(p4hand) != 0:
+	P1Turn()
