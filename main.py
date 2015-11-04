@@ -40,7 +40,7 @@ def PrintPretty(listofcards):
 		elif listofcards[i][0] != "Colorless":
 			print(Style.BRIGHT + colored(listofcards[i][0] + " " + listofcards[i][1], listofcards[i][0].lower()) + Style.RESET_ALL)
 		else:
-			print(Style.BRIGHT + colored(listofcards[i][0] + " " + listofcards[i][1], 'white') + Style.RESET_ALL)
+			print(Style.BRIGHT + colored(listofcards[i][0] + " " + listofcards[i][1] + Style.RESET_ALL))
 			
 # Let's start the game!
 init()
