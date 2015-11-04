@@ -50,7 +50,12 @@ def DrawCard():
 def TryToPlayCard(hand, tobeplayed, topcard):
 	actualcard = [tobeplayed[0].capitalize(), tobeplayed[1]]
 	if actualcard in hand:
-		return isValidCard(actualcard, topcard)
+		if isValidCard(actualcard, topcard):
+			return True
+		else:
+			print("That card can't be played!")
+			return False
+	print("That card isn't in your hand!")
 	return False
 
 def P1PlayCard(tobeplayed):
