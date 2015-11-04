@@ -12,6 +12,7 @@ def GenerateDeck():
 	for color in colors:
 		for value in values:
 			deck += [[color, value]]
+			deck += [[color, value]]
 	deck += zeroes
 	for i in range(0,4):
 		deck += wilds
