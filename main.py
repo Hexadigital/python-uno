@@ -7,6 +7,7 @@ from colorama import init, Fore, Style
 from termcolor import colored
 from time import sleep
 from string import capwords
+from copy import deepcopy
 
 def GenerateDeck():
 	# Specify card types, wilds, and zeroes
@@ -37,7 +38,7 @@ def GenerateHand():
 		# Pick a random card from the deck
 		cardnum = randint(0, len(UnoDeck) - 1)
 		# Add the card to the hand
-		hand += [UnoDeck[cardnum]]
+		hand += [deepcopy(UnoDeck[cardnum])]
 		# Remove the card from the deck
 		UnoDeck.remove(UnoDeck[cardnum])
 	# Give the player their hand
@@ -113,6 +114,7 @@ def P1PlayCard(p1card):
 			p1card[0] = colorchoice
 		# Print out a message to let the player know what happened
 		print("You place a " + PrettifyCards([p1card]) + " on the table.")
+		print(id(p1card))
 		# Check to see if the card is special or not
 		CheckSpecial(p1card)
 		# Update the card on the table
@@ -137,6 +139,7 @@ def P2PlayCard(p2card):
 			p2card[0] = max(handcolors, key=handcolors.count)
 		# Print out a message to let the player know what happened
 		print("The guy on your left placed a " + PrettifyCards([p2card]) + " on the table.")
+		print(id(p2card))
 		# Check to see if the card is special or not
 		CheckSpecial(p2card)
 		# Update the card on the table
@@ -161,6 +164,7 @@ def P3PlayCard(p3card):
 			p3card[0] = max(handcolors, key=handcolors.count)
 		# Print out a message to let the player know what happened
 		print("The lady across from you placed a " + PrettifyCards([p3card]) + " on the table.")
+		print(id(p3card))
 		# Check to see if the card is special or not
 		CheckSpecial(p3card)
 		# Update the card on the table
@@ -185,6 +189,7 @@ def P4PlayCard(p4card):
 			p4card[0] = max(handcolors, key=handcolors.count)
 		# Print out a message to let the player know what happened
 		print("The guy on your right placed a " + PrettifyCards([p4card]) + " on the table.")
+		print(id(p4card))
 		# Check to see if the card is special or not
 		CheckSpecial(p4card)
 		# Update the card on the table
@@ -201,7 +206,7 @@ def P1Turn():
 	if getValidCards(p1hand) == []:
 		# Let's draw a card!
 		newcard = DrawCard()
-		p1hand += [newcard]
+		p1hand += [deepcopy(newcard)]
 		print("You draw a " + PrettifyCards([newcard]) + " from the deck.")
 		P1PlayCard(newcard)
 	else:
@@ -226,7 +231,7 @@ def P2Turn():
 	if getValidCards(p2hand) == []:
 		# Let's draw a card!
 		newcard = DrawCard()
-		p2hand += [newcard]
+		p2hand += [deepcopy(newcard)]
 		print("The guy on your left drew a card from the deck.")
 		P2PlayCard(newcard)
 	else:
@@ -241,7 +246,7 @@ def P3Turn():
 	if getValidCards(p3hand) == []:
 		# Let's draw a card!
 		newcard = DrawCard()
-		p3hand += [newcard]
+		p3hand += [deepcopy(newcard)]
 		print("The lady across from you drew a card from the deck.")
 		P3PlayCard(newcard)
 	else:
@@ -256,7 +261,7 @@ def P4Turn():
 	if getValidCards(p4hand) == []:
 		# Let's draw a card!
 		newcard = DrawCard()
-		p4hand += [newcard]
+		p4hand += [deepcopy(newcard)]
 		print("The guy on your right drew a card from the deck.")
 		P4PlayCard(newcard)
 	else:
