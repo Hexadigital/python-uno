@@ -211,11 +211,12 @@ def P1Turn():
 		# Loop until they choose a valid card (in hand, and can be played)
 		while True:
 			tempcard = raw_input("What card would you like to play? ").split(None, 1)
-			# Fix the input into a proper card type
-			propercard = [capwords(tempcard[0]), capwords(tempcard[1])]
-			# See if they can play that card
-			if TryToPlayCard(p1hand, propercard):
-				break
+			if len(tempcard) == 2:
+				# Fix the input into a proper card type
+				propercard = [capwords(tempcard[0]), capwords(tempcard[1])]
+				# See if they can play that card
+				if TryToPlayCard(p1hand, propercard):
+					break
 		# They picked a valid card! Let's play it.
 		P1PlayCard(propercard)
 	
