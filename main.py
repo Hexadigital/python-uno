@@ -1,5 +1,5 @@
 '''
-Plays UNO!
+Play UNO through a terminal - with colour support!
 @author Hexadigital
 '''
 from random import randint, choice, shuffle
