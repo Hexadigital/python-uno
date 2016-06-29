@@ -351,7 +351,10 @@ while len(p1hand) != 0 and len(p2hand) != 0 and len(p3hand) != 0 and len(p4hand)
 		P3Turn()
 	elif turncounter == 4:
 		P4Turn()
-		RandomEvent()
+		try:
+			RandomEvent()
+		except:
+			False
 	# Adjust the counter to reflect the next person's turn
 	if reverse == False:
 		turncounter += 1
