@@ -1,5 +1,7 @@
+# Anything that isn't one of the required functions, but is used by them, should be defined up here
 lightercolor = ["yellow", "red"]
 
+# This is an example of a random event. There is a 7/100 chance of an event occuring in this theme.
 def RandomEvent():
 	chance = randint(0, 100)
 	if chance == 1:
@@ -17,6 +19,7 @@ def RandomEvent():
 	if chance == 7:
 		print("You hear someone call your name, but you must have been mistaken.")
 
+# This is the text that the user will see first upon running the game.
 def PreIntro():
 	print("Welcome to the world of Uno!")
 	print("You sit down at a table with a few other people.")
@@ -33,7 +36,8 @@ def PreIntro():
 	sleep(1)
 	print("You pick your cards up, but don't look at them just yet.")
 	sleep(2)
-	
+
+# This is the text that will be displayed after the PreIntro, and after the dealer places a card.
 def PostIntro():
 	sleep(2)
 	print("The scent of smoke hits your nose. It's familiar, yet unwanted.")
