@@ -4,6 +4,8 @@ Each theme must contain the following functions:
 
 PreIntro() - A function that plays before the dealer puts the card down.
 
+DealerText() - A function that displays when the dealer puts the card down.
+
 PostIntro() - A function that plays after the dealer puts the card down.
 
 RandomEvent() - A function that plays after the fourth player's turn. It is recommended that you use randint from the random library to determine the chance of the event happening.

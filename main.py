@@ -338,7 +338,7 @@ p4hand = GenerateHand()
 PreIntro()
 # Draw a random card from the deck, and place it on the table
 tablecard = DrawCard()
-print("The dealer places a " + PrettifyCards([tablecard]) + " in the centre of the table.")
+DealerText(PrettifyCards([tablecard]))
 PostIntro()
 # While everyone has cards, play the game
 while len(p1hand) != 0 and len(p2hand) != 0 and len(p3hand) != 0 and len(p4hand) != 0:

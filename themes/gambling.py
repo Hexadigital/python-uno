@@ -37,6 +37,10 @@ def PreIntro():
 	print("You pick your cards up, but don't look at them just yet.")
 	sleep(2)
 
+# This is the text that will be displayed when the dealer first places a card.
+def DealerText(card):
+	print("The dealer places a " + card + " in the centre of the table.")
+
 # This is the text that will be displayed after the PreIntro, and after the dealer places a card.
 def PostIntro():
 	sleep(2)
