@@ -9,10 +9,12 @@ from time import sleep
 from string import capwords
 from copy import deepcopy
 
+colors = ["Green", "Blue", "Yellow", "Red"]
+hands = []
+
 def GenerateDeck():
 	# Specify card types, wilds, and zeroes
 	zeroes = [["Green", "0"], ["Blue", "0"], ["Yellow", "0"], ["Red", "0"]]
-	colors = ["Green", "Blue", "Yellow", "Red"]
 	values = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "Skip", "Draw Two", "Reverse"]
 	wilds = [["Colorless", "Wild"], ["Colorless", "Draw Four"]]
 	deck = []
@@ -89,10 +91,6 @@ def getValidCards(hand):
 def CheckSpecial(card):
 	global reverse
 	global turncounter
-	global p1hand
-	global p2hand
-	global p3hand
-	global p4hand
 	# If the card is a Reverse, reverse the turn order
 	if card[1] == "Reverse":
 		reverse = not reverse
@@ -110,34 +108,33 @@ def CheckSpecial(card):
 		if turncounter == 1 or turncounter == 5:
 			for i in cardnumbers:
 				newcard = DrawCard()
-				p1hand += [deepcopy(newcard)]
+				hands[0] += [deepcopy(newcard)]
 				print("You draw a " + PrettifyCards([newcard]) + " from the deck.")
 				sleep(1)
 		if turncounter == 2:
 			for i in cardnumbers:
 				newcard = DrawCard()
-				p2hand += [deepcopy(newcard)]
+				hands[1] += [deepcopy(newcard)]
 				print("The guy on your left drew a card from the deck.")
 				sleep(1)
 		if turncounter == 3:
 			for i in cardnumbers:
 				newcard = DrawCard()
-				p3hand += [deepcopy(newcard)]
+				hands[2] += [deepcopy(newcard)]
 				print("The lady across from you drew a card from the deck.")
 				sleep(1)
 		if turncounter == 4 or turncounter == 0:
 			for i in cardnumbers:
 				newcard = DrawCard()
-				p4hand += [deepcopy(newcard)]
+				hands[3] += [deepcopy(newcard)]
 				print("The guy on your right drew a card from the deck.")
 				sleep(1)
 
 def P1PlayCard(p1card):
-	global p1hand
 	global tablecard
-	if p1card in p1hand and isValidCard(p1card):
+	if p1card in hands[0] and isValidCard(p1card):
 		# Remove the card from the player's hand
-		p1hand.remove(p1card)
+		hands[0].remove(p1card)
 		# If the card is colorless, let's ask what color to use
 		if p1card[0] == "Colorless":
 			colorchoice = ""
@@ -153,17 +150,16 @@ def P1PlayCard(p1card):
 		tablecard = p1card
 	
 def P2PlayCard(p2card):
-	global p2hand
 	global tablecard
-	if p2card in p2hand and isValidCard(p2card):
+	if p2card in hands[1] and isValidCard(p2card):
 		# Remove the card from the player's hand
-		p2hand.remove(p2card)
+		hands[1].remove(p2card)
 		# If the card is colorless, let's decide what color to pick
 		if p2card[0] == "Colorless":
 			handcolors = []
-			for i in p2hand:
+			for i in hands[1]:
 				# Make a list of all the colors in the CPU's hand
-				handcolors += p2hand[0]
+				handcolors += hands[1][0]
 				# Remove all the Colorless colors
 				while "Colorless" in handcolors:
 					handcolors.remove("Colorless")
@@ -177,17 +173,16 @@ def P2PlayCard(p2card):
 		tablecard = p2card
 	
 def P3PlayCard(p3card):
-	global p3hand
 	global tablecard
-	if p3card in p3hand and isValidCard(p3card):
+	if p3card in hands[2] and isValidCard(p3card):
 		# Remove the card from the player's hand
-		p3hand.remove(p3card)
+		hands[2].remove(p3card)
 		# If the card is colorless, let's decide what color to pick
 		if p3card[0] == "Colorless":
 			handcolors = []
-			for i in p3hand:
+			for i in hands[2]:
 				# Make a list of all the colors in the CPU's hand
-				handcolors += p3hand[0]
+				handcolors += hands[2][0]
 				# Remove all the Colorless colors
 				while "Colorless" in handcolors:
 					handcolors.remove("Colorless")
@@ -201,17 +196,16 @@ def P3PlayCard(p3card):
 		tablecard = p3card
 	
 def P4PlayCard(p4card):
-	global p4hand
 	global tablecard
-	if p4card in p4hand and isValidCard(p4card):
+	if p4card in hands[3] and isValidCard(p4card):
 		# Remove the card from the player's hand
-		p4hand.remove(p4card)
+		hands[3].remove(p4card)
 		# If the card is colorless, let's decide what color to pick
 		if p4card[0] == "Colorless":
 			handcolors = []
-			for i in p4hand:
+			for i in hands[3]:
 				# Make a list of all the colors in the CPU's hand
-				handcolors += p4hand[0]
+				handcolors += hands[3][0]
 				# Remove all the Colorless colors
 				while "Colorless" in handcolors:
 					handcolors.remove("Colorless")
@@ -225,23 +219,22 @@ def P4PlayCard(p4card):
 		tablecard = p4card
 	
 def P1Turn():
-	global p1hand
 	sleep(3)
 	# Precursor
 	print("\nYou look at your hand:")
 	# Print out the players hand, complete with colors
-	print(PrettifyCards(p1hand))
+	print(PrettifyCards(hands[0]))
 	# If there are no playable cards in the hand...
-	if getValidCards(p1hand) == []:
+	if getValidCards(hands[0]) == []:
 		# Let's draw a card!
 		newcard = DrawCard()
-		p1hand += [deepcopy(newcard)]
+		hands[0] += [deepcopy(newcard)]
 		print("You draw a " + PrettifyCards([newcard]) + " from the deck.")
 		P1PlayCard(newcard)
 	else:
 		# Should we print out the list of playable cards?
 		if easymode:
-			print("You can play: " + PrettifyCards(getValidCards(p1hand)))
+			print("You can play: " + PrettifyCards(getValidCards(hands[0])))
 		# Loop until they choose a valid card (in hand, and can be played)
 		while True:
 			tempcard = raw_input("What card would you like to play? ").split(None, 1)
@@ -249,53 +242,50 @@ def P1Turn():
 				# Fix the input into a proper card type
 				propercard = [capwords(tempcard[0]), capwords(tempcard[1])]
 				# See if they can play that card
-				if TryToPlayCard(p1hand, propercard):
+				if TryToPlayCard(hands[0], propercard):
 					break
 		# They picked a valid card! Let's play it.
 		P1PlayCard(propercard)
 	
 def P2Turn():
-	global p2hand
 	sleep(3)
-	if getValidCards(p2hand) == []:
+	if getValidCards(hands[1]) == []:
 		# Let's draw a card!
 		newcard = DrawCard()
-		p2hand += [deepcopy(newcard)]
+		hands[1] += [deepcopy(newcard)]
 		print("The guy on your left drew a card from the deck.")
 		P2PlayCard(newcard)
 	else:
 		# Pick a random card from the list of valid cards
-		tempcard = choice(getValidCards(p2hand))
+		tempcard = choice(getValidCards(hands[1]))
 		# Let's play it
 		P2PlayCard(tempcard)
 	
 def P3Turn():
-	global p3hand
 	sleep(3)
-	if getValidCards(p3hand) == []:
+	if getValidCards(hands[2]) == []:
 		# Let's draw a card!
 		newcard = DrawCard()
-		p3hand += [deepcopy(newcard)]
+		hands[2] += [deepcopy(newcard)]
 		print("The lady across from you drew a card from the deck.")
 		P3PlayCard(newcard)
 	else:
 		# Pick a random card from the list of valid cards
-		tempcard = choice(getValidCards(p3hand))
+		tempcard = choice(getValidCards(hands[2]))
 		# Let's play it
 		P3PlayCard(tempcard)
 
 def P4Turn():
-	global p4hand
 	sleep(3) 
-	if getValidCards(p4hand) == []:
+	if getValidCards(hands[3]) == []:
 		# Let's draw a card!
 		newcard = DrawCard()
-		p4hand += [deepcopy(newcard)]
+		hands[3] += [deepcopy(newcard)]
 		print("The guy on your right drew a card from the deck.")
 		P4PlayCard(newcard)
 	else:
 		# Pick a random card from the list of valid cards
-		tempcard = choice(getValidCards(p4hand))
+		tempcard = choice(getValidCards(hands[3]))
 		# Let's play it
 		P4PlayCard(tempcard)
 
@@ -318,6 +308,12 @@ def PrettifyCards(listofcards):
 			returnstring += ", "
 	# Return the list of colored cards
 	return returnstring
+	
+def CheckHands():
+	if len(hands[0]) != 0 and len(hands[1]) != 0 and len(hands[2]) != 0 and len(hands[3]) != 0:
+		return True
+	else:
+		return False
 
 # Load the config
 execfile('config.txt')	
@@ -329,21 +325,18 @@ reverse = False
 # Generate the deck
 UnoDeck = GenerateDeck()
 # Generate the players' hands
-p1hand = GenerateHand()
-p2hand = GenerateHand()
-p3hand = GenerateHand()
-p4hand = GenerateHand()
+hands = [GenerateHand(), GenerateHand(), GenerateHand(), GenerateHand()]
 
 # A short intro
-PreIntro()
+#PreIntro()
 # Draw a random card from the deck, and place it on the table
 tablecard = DrawCard()
 if (tablecard[0] == "Colorless"):
-	tablecard[0] = choice(["Green", "Blue", "Yellow", "Red"])
+	tablecard[0] = choice(colors)
 DealerText(PrettifyCards([tablecard]))
-PostIntro()
+#PostIntro()
 # While everyone has cards, play the game
-while len(p1hand) != 0 and len(p2hand) != 0 and len(p3hand) != 0 and len(p4hand) != 0:
+while CheckHands():
 	# Figure out whose turn it is
 	if turncounter == 1:
 		P1Turn()
