@@ -2,6 +2,8 @@ Themes can be placed in here.
 
 Each theme must contain the following functions:
 
+names - A list of names for the CPUs. The first name doesn't matter.
+
 PreIntro() - A function that plays before the dealer puts the card down.
 
 DealerText() - A function that displays when the dealer puts the card down.

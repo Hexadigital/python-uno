@@ -1,6 +1,9 @@
 # Anything that isn't one of the required functions, but is used by them, should be defined up here
 lightercolor = ["yellow", "red"]
 
+# This is an example of defined names.
+names = ["Player", "The guy on your left", "The lady across from you", "The guy on your right"]
+
 # This is an example of a random event. There is a 7/100 chance of an event occuring in this theme.
 def RandomEvent():
 	chance = randint(0, 100)
