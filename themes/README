@@ -2,7 +2,7 @@ Themes can be placed in here.
 
 Each theme must contain the following functions:
 
-names - A list of names for the CPUs. The first name doesn't matter.
+names - A list of names for the CPUs and player.
 
 PreIntro() - A function that plays before the dealer puts the card down.
 
@@ -14,7 +14,7 @@ PostIntro() - A function that plays after the dealer puts the card down.
 
 Optionally, you can define the following functions:
 
-RandomEvent() - A function that plays after the fourth player's turn. It is recommended that you use randint from the random library to determine the chance of the event happening.
+RandomEvent() - A function that plays after each CPU turn. It is recommended that you use randint from the random library to determine the chance of the event happening.
 
 
 

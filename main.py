@@ -88,7 +88,7 @@ def getValidCards(hand):
 			valids += [i]
 	return valids
 	
-def CheckSpecial(card):
+def CheckSpecial(card, handnum):
 	global reverse
 	global turncounter
 	# If the card is a Reverse, reverse the turn order
@@ -105,30 +105,15 @@ def CheckSpecial(card):
 			cardnumbers = [1,2]
 		elif card[1] == "Draw Four":
 			cardnumbers = [1,2,3,4]
-		if turncounter == 1 or turncounter == 5:
-			for i in cardnumbers:
-				newcard = DrawCard()
-				hands[0] += [deepcopy(newcard)]
-				print("You draw a " + PrettifyCards([newcard]) + " from the deck.")
-				sleep(1)
-		if turncounter == 2:
-			for i in cardnumbers:
-				newcard = DrawCard()
-				hands[1] += [deepcopy(newcard)]
-				print("The guy on your left drew a card from the deck.")
-				sleep(1)
-		if turncounter == 3:
-			for i in cardnumbers:
-				newcard = DrawCard()
-				hands[2] += [deepcopy(newcard)]
-				print("The lady across from you drew a card from the deck.")
-				sleep(1)
-		if turncounter == 4 or turncounter == 0:
-			for i in cardnumbers:
-				newcard = DrawCard()
-				hands[3] += [deepcopy(newcard)]
-				print("The guy on your right drew a card from the deck.")
-				sleep(1)
+		if reverse:
+			otherplayer = turncounter + 1
+		else:
+			otherplayer = turncounter - 1
+		for i in cardnumbers:
+			newcard = DrawCard()
+			hands[otherplayer] += [deepcopy(newcard)]
+			sleep(1)
+			print(names[otherplayer] + " drew a card from the deck.")
 
 def P1PlayCard(p1card):
 	global tablecard
@@ -145,30 +130,30 @@ def P1PlayCard(p1card):
 		# Print out a message to let the player know what happened
 		print("You place a " + PrettifyCards([p1card]) + " on the table.")
 		# Check to see if the card is special or not
-		CheckSpecial(p1card)
+		CheckSpecial(p1card, 0)
 		# Update the card on the table
 		tablecard = p1card
 	
-def CPUPlayCard(card, hand):
+def CPUPlayCard(card, handnum):
 	global tablecard
-	if card in hands[hand] and isValidCard(card):
+	if card in hands[handnum] and isValidCard(card):
 		# Remove the card from the player's hand
-		hands[hand].remove(card)
+		hands[handnum].remove(card)
 		# If the card is colorless, let's decide what color to pick
 		if card[0] == "Colorless":
 			handcolors = []
-			for i in hands[hand]:
+			for i in hands[handnum]:
 				# Make a list of all the colors in the CPU's hand
-				handcolors += hands[hand][0]
+				handcolors += hands[handnum][0]
 				# Remove all the Colorless colors
 				while "Colorless" in handcolors:
 					handcolors.remove("Colorless")
 			# Set the wild card to whatever the CPU has the most of
 			card[0] = max(handcolors, key=handcolors.count)
 		# Print out a message to let the player know what happened
-		print(names[hand] + " placed a " + PrettifyCards([card]) + " on the table.")
+		print(names[handnum] + " placed a " + PrettifyCards([card]) + " on the table.")
 		# Check to see if the card is special or not
-		CheckSpecial(card)
+		CheckSpecial(card, handnum)
 		# Update the card on the table
 		tablecard = card
 	
@@ -201,47 +186,19 @@ def P1Turn():
 		# They picked a valid card! Let's play it.
 		P1PlayCard(propercard)
 	
-def P2Turn():
+def CPUTurn():
 	sleep(3)
-	if getValidCards(hands[1]) == []:
+	if getValidCards(hands[turncounter-1]) == []:
 		# Let's draw a card!
 		newcard = DrawCard()
-		hands[1] += [deepcopy(newcard)]
-		print("The guy on your left drew a card from the deck.")
-		CPUPlayCard(newcard, 1)
+		hands[turncounter-1] += [deepcopy(newcard)]
+		print(names[turncounter-1] + " drew a card from the deck.")
+		CPUPlayCard(newcard, turncounter-1)
 	else:
 		# Pick a random card from the list of valid cards
-		tempcard = choice(getValidCards(hands[1]))
+		tempcard = choice(getValidCards(hands[turncounter-1]))
 		# Let's play it
-		CPUPlayCard(tempcard, 1)
-	
-def P3Turn():
-	sleep(3)
-	if getValidCards(hands[2]) == []:
-		# Let's draw a card!
-		newcard = DrawCard()
-		hands[2] += [deepcopy(newcard)]
-		print("The lady across from you drew a card from the deck.")
-		CPUPlayCard(newcard, 2)
-	else:
-		# Pick a random card from the list of valid cards
-		tempcard = choice(getValidCards(hands[2]))
-		# Let's play it
-		CPUPlayCard(tempcard, 2)
-
-def P4Turn():
-	sleep(3) 
-	if getValidCards(hands[3]) == []:
-		# Let's draw a card!
-		newcard = DrawCard()
-		hands[3] += [deepcopy(newcard)]
-		print("The guy on your right drew a card from the deck.")
-		CPUPlayCard(newcard, 3)
-	else:
-		# Pick a random card from the list of valid cards
-		tempcard = choice(getValidCards(hands[3]))
-		# Let's play it
-		CPUPlayCard(tempcard, 3)
+		CPUPlayCard(tempcard, turncounter-1)
 
 def PrettifyCards(listofcards):
 	returnstring = ''
@@ -285,6 +242,7 @@ hands = [GenerateHand(), GenerateHand(), GenerateHand(), GenerateHand()]
 #PreIntro()
 # Draw a random card from the deck, and place it on the table
 tablecard = DrawCard()
+# If the card is a wild, pick a random color
 if (tablecard[0] == "Colorless"):
 	tablecard[0] = choice(colors)
 DealerText(PrettifyCards([tablecard]))
@@ -294,12 +252,8 @@ while CheckHands():
 	# Figure out whose turn it is
 	if turncounter == 1:
 		P1Turn()
-	elif turncounter == 2:
-		P2Turn()
-	elif turncounter == 3:
-		P3Turn()
-	elif turncounter == 4:
-		P4Turn()
+	else:
+		CPUTurn()
 		try:
 			RandomEvent()
 		except:
