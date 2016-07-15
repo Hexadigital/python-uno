@@ -11,6 +11,7 @@ from copy import deepcopy
 
 colors = ["Green", "Blue", "Yellow", "Red"]
 hands = []
+shufflepile = []
 
 def GenerateDeck():
 	# Specify card types, wilds, and zeroes
@@ -32,6 +33,13 @@ def GenerateDeck():
 	shuffle(deck)
 	# Return the deck
 	return deck
+
+def RestoreDeck():
+	global shufflepile
+	global UnoDeck
+	print("Shuffle pile is " + str(shufflepile))
+	UnoDeck = deepcopy(shufflepile)
+	shufflepile = []
 	
 def GenerateHand():
 	hand = []
@@ -59,10 +67,13 @@ def isValidCard(tobeplayed):
 		return False
 	
 def DrawCard():
-	# Pick a random card from the deck
+	#Pick a random card from the deck
 	randcard = UnoDeck[randint(0, len(UnoDeck) - 1)]
 	# Remove that card from the deck
 	UnoDeck.remove(randcard)
+	# Check if the deck is empty
+	if (len(UnoDeck) == 0):
+		RestoreDeck()
 	# And give that card back
 	return randcard
 	
@@ -131,6 +142,9 @@ def P1PlayCard(p1card):
 		print("You place a " + PrettifyCards([p1card]) + " on the table.")
 		# Check to see if the card is special or not
 		CheckSpecial(p1card, 0)
+		# Move the current table card to the shuffle pile
+		global shufflepile
+		shufflepile += [tablecard]
 		# Update the card on the table
 		tablecard = p1card
 	
@@ -154,6 +168,9 @@ def CPUPlayCard(card, handnum):
 		print(names[handnum] + " placed a " + PrettifyCards([card]) + " on the table.")
 		# Check to see if the card is special or not
 		CheckSpecial(card, handnum)
+		# Move the current table card to the shuffle pile
+		global shufflepile
+		shufflepile += [tablecard]
 		# Update the card on the table
 		tablecard = card
 	
