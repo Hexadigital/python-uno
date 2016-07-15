@@ -338,6 +338,8 @@ p4hand = GenerateHand()
 PreIntro()
 # Draw a random card from the deck, and place it on the table
 tablecard = DrawCard()
+if (tablecard[0] == "Colorless"):
+	tablecard[0] = choice(["Green", "Blue", "Yellow", "Red"])
 DealerText(PrettifyCards([tablecard]))
 PostIntro()
 # While everyone has cards, play the game
