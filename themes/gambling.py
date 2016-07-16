@@ -51,3 +51,10 @@ def PostIntro():
 	sleep(2)
 	print("The scent of smoke hits your nose. It's familiar, yet unwanted.")
 	sleep(3)
+
+# This is the text that will be displayed when someone is on their last card.
+def OneCardLeft(name):
+	if name == 0:
+		print(Style.BRIGHT + "You have declared Uno!" + Style.RESET_ALL)
+	else:
+		print(Style.BRIGHT + names[name] + " has declared Uno!" + Style.RESET_ALL)

@@ -149,6 +149,8 @@ def P1PlayCard(p1card):
 		shufflepile += [tablecard]
 		# Update the card on the table
 		tablecard = p1card
+		if (len(hands[0]) == 1):
+			OneCardLeft(0)
 	
 def CPUPlayCard(card, handnum):
 	global tablecard
@@ -175,6 +177,8 @@ def CPUPlayCard(card, handnum):
 		shufflepile += [tablecard]
 		# Update the card on the table
 		tablecard = card
+		if (len(hands[handnum-1]) == 1):
+			OneCardLeft(handnum-1)
 	
 def P1Turn():
 	sleep(3)
@@ -264,14 +268,14 @@ for i in range(0,playercount):
 	hands += [GenerateHand()]
 
 # A short intro
-PreIntro()
+#PreIntro()
 # Draw a random card from the deck, and place it on the table
 tablecard = DrawCard()
 # If the card is a wild, pick a random color
 if (tablecard[0] == "Colorless"):
 	tablecard[0] = choice(colors)
 DealerText(PrettifyCards([tablecard]))
-PostIntro()
+#PostIntro()
 # While everyone has cards, play the game
 while CheckHands():
 	# Figure out whose turn it is
