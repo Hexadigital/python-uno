@@ -4,6 +4,8 @@ Each theme must contain the following functions:
 
 names - A list of names for the CPUs and player.
 
+playercount - The number of players in your theme. (must be between 2 and 8)
+
 PreIntro() - A function that plays before the dealer puts the card down.
 
 DealerText() - A function that displays when the dealer puts the card down.

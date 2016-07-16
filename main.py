@@ -37,7 +37,6 @@ def GenerateDeck():
 def RestoreDeck():
 	global shufflepile
 	global UnoDeck
-	print("Shuffle pile is " + str(shufflepile))
 	UnoDeck = deepcopy(shufflepile)
 	shufflepile = []
 	
@@ -105,26 +104,29 @@ def CheckSpecial(card, handnum):
 	# If the card is a Reverse, reverse the turn order
 	if card[1] == "Reverse":
 		reverse = not reverse
+	if card[1] == "Draw Two" or card[1] == "Draw Four":
+		otherplayer = turncounter
+		if reverse:
+			otherplayer -= 2
+		if otherplayer >= playercount:
+			otherplayer = 0
+		elif otherplayer < 0:
+			otherplayer = playercount
+		if card[1] == "Draw Two":
+			cardnumbers = [1,2]
+		elif card[1] == "Draw Four":
+			cardnumbers = [1,2,3,4]
+		for i in cardnumbers:
+			newcard = DrawCard()
+			hands[otherplayer] += [deepcopy(newcard)]
+			sleep(1)
+			print(names[otherplayer] + " drew a card from the deck.")
 	# If the card is a Skip, skip the next player
 	if card[1] == "Skip" or card[1] == "Draw Two" or card[1] == "Draw Four":
 		if reverse:
 			turncounter -= 1
 		else:
 			turncounter += 1
-	if card[1] == "Draw Two" or card[1] == "Draw Four":
-		if card[1] == "Draw Two":
-			cardnumbers = [1,2]
-		elif card[1] == "Draw Four":
-			cardnumbers = [1,2,3,4]
-		if reverse:
-			otherplayer = turncounter + 1
-		else:
-			otherplayer = turncounter - 1
-		for i in cardnumbers:
-			newcard = DrawCard()
-			hands[otherplayer] += [deepcopy(newcard)]
-			sleep(1)
-			print(names[otherplayer] + " drew a card from the deck.")
 
 def P1PlayCard(p1card):
 	global tablecard
@@ -139,7 +141,7 @@ def P1PlayCard(p1card):
 				colorchoice = capwords(raw_input("What color would you like to set it to? "))
 			p1card[0] = colorchoice
 		# Print out a message to let the player know what happened
-		print("You place a " + PrettifyCards([p1card]) + " on the table.")
+		print(names[0] + " placed a " + PrettifyCards([p1card]) + " on the table.")
 		# Check to see if the card is special or not
 		CheckSpecial(p1card, 0)
 		# Move the current table card to the shuffle pile
@@ -150,22 +152,22 @@ def P1PlayCard(p1card):
 	
 def CPUPlayCard(card, handnum):
 	global tablecard
-	if card in hands[handnum] and isValidCard(card):
+	if card in hands[handnum-1] and isValidCard(card):
 		# Remove the card from the player's hand
-		hands[handnum].remove(card)
+		hands[handnum-1].remove(card)
 		# If the card is colorless, let's decide what color to pick
 		if card[0] == "Colorless":
 			handcolors = []
-			for i in hands[handnum]:
+			for i in hands[handnum-1]:
 				# Make a list of all the colors in the CPU's hand
-				handcolors += hands[handnum][0]
+				handcolors += hands[handnum-1][0]
 				# Remove all the Colorless colors
 				while "Colorless" in handcolors:
 					handcolors.remove("Colorless")
 			# Set the wild card to whatever the CPU has the most of
 			card[0] = max(handcolors, key=handcolors.count)
 		# Print out a message to let the player know what happened
-		print(names[handnum] + " placed a " + PrettifyCards([card]) + " on the table.")
+		print(names[handnum-1] + " placed a " + PrettifyCards([card]) + " on the table.")
 		# Check to see if the card is special or not
 		CheckSpecial(card, handnum)
 		# Move the current table card to the shuffle pile
@@ -185,7 +187,7 @@ def P1Turn():
 		# Let's draw a card!
 		newcard = DrawCard()
 		hands[0] += [deepcopy(newcard)]
-		print("You draw a " + PrettifyCards([newcard]) + " from the deck.")
+		print(names[0] + " drew a " + PrettifyCards([newcard]) + " from the deck.")
 		P1PlayCard(newcard)
 	else:
 		# Should we print out the list of playable cards?
@@ -215,7 +217,7 @@ def CPUTurn():
 		# Pick a random card from the list of valid cards
 		tempcard = choice(getValidCards(hands[turncounter-1]))
 		# Let's play it
-		CPUPlayCard(tempcard, turncounter-1)
+		CPUPlayCard(tempcard, turncounter)
 
 def PrettifyCards(listofcards):
 	returnstring = ''
@@ -238,7 +240,11 @@ def PrettifyCards(listofcards):
 	return returnstring
 	
 def CheckHands():
-	if len(hands[0]) != 0 and len(hands[1]) != 0 and len(hands[2]) != 0 and len(hands[3]) != 0:
+	counter = 0
+	for hand in hands:
+		if (len(hand) != 0):
+			counter += 1
+	if (counter == playercount):
 		return True
 	else:
 		return False
@@ -253,17 +259,19 @@ reverse = False
 # Generate the deck
 UnoDeck = GenerateDeck()
 # Generate the players' hands
-hands = [GenerateHand(), GenerateHand(), GenerateHand(), GenerateHand()]
+hands = []
+for i in range(0,playercount):
+	hands += [GenerateHand()]
 
 # A short intro
-#PreIntro()
+PreIntro()
 # Draw a random card from the deck, and place it on the table
 tablecard = DrawCard()
 # If the card is a wild, pick a random color
 if (tablecard[0] == "Colorless"):
 	tablecard[0] = choice(colors)
 DealerText(PrettifyCards([tablecard]))
-#PostIntro()
+PostIntro()
 # While everyone has cards, play the game
 while CheckHands():
 	# Figure out whose turn it is
@@ -283,6 +291,6 @@ while CheckHands():
 	# If the counter is above or below the number of players
 	# then we should adjust it so that it loops back around
 	if turncounter < 1:
-		turncounter += 4
-	elif turncounter > 4:
-		turncounter -= 4
+		turncounter += playercount
+	elif turncounter > playercount:
+		turncounter -= playercount

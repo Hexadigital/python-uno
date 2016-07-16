@@ -2,7 +2,9 @@
 lightercolor = ["yellow", "red"]
 
 # This is an example of defined names.
-names = ["You ", "The guy on your left", "The lady across from you", "The guy on your right"]
+names = ["You", "The guy on your left", "The lady across from you", "The guy on your right"]
+
+playercount = 4
 
 # This is an example of a random event. There is a 7/1000 chance of an event occuring in this theme.
 def RandomEvent():
