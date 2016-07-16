@@ -37,7 +37,9 @@ def GenerateDeck():
 def RestoreDeck():
 	global shufflepile
 	global UnoDeck
+	# Create the UnoDeck from the shufflepile
 	UnoDeck = deepcopy(shufflepile)
+	# Empty out the shufflepile
 	shufflepile = []
 	
 def GenerateHand():
@@ -55,7 +57,7 @@ def GenerateHand():
 	
 def isValidCard(tobeplayed):
 	global tablecard
-	# colorless cards can be played any time
+	# Colorless cards can be played any time
 	if tobeplayed[0] == "Colorless":
 		return True
 	# If the values or colors are the same, it can be played
@@ -66,7 +68,7 @@ def isValidCard(tobeplayed):
 		return False
 	
 def DrawCard():
-	#Pick a random card from the deck
+	# Pick a random card from the deck
 	randcard = UnoDeck[randint(0, len(UnoDeck) - 1)]
 	# Remove that card from the deck
 	UnoDeck.remove(randcard)
@@ -104,14 +106,19 @@ def CheckSpecial(card, handnum):
 	# If the card is a Reverse, reverse the turn order
 	if card[1] == "Reverse":
 		reverse = not reverse
+	# If the card is a Draw Two or Draw Four, handle it appropriately
 	if card[1] == "Draw Two" or card[1] == "Draw Four":
+		# We need to figure out who would be affected by the card
 		otherplayer = turncounter
+		# If reversed, we need to go the other way
 		if reverse:
 			otherplayer -= 2
+		# Handle wrapping of the player count
 		if otherplayer >= playercount:
 			otherplayer = 0
 		elif otherplayer < 0:
 			otherplayer = playercount
+		# How many cards need to be drawn?
 		if card[1] == "Draw Two":
 			cardnumbers = [1,2]
 		elif card[1] == "Draw Four":
@@ -123,6 +130,7 @@ def CheckSpecial(card, handnum):
 			print(names[otherplayer] + " drew a card from the deck.")
 	# If the card is a Skip, skip the next player
 	if card[1] == "Skip" or card[1] == "Draw Two" or card[1] == "Draw Four":
+		# If reversed, we need to go the other way
 		if reverse:
 			turncounter -= 1
 		else:
@@ -216,6 +224,7 @@ def CPUTurn():
 		newcard = DrawCard()
 		hands[turncounter-1] += [deepcopy(newcard)]
 		print(names[turncounter-1] + " drew a card from the deck.")
+		# Let's try to play it
 		CPUPlayCard(newcard, turncounter-1)
 	else:
 		# Pick a random card from the list of valid cards
@@ -245,9 +254,13 @@ def PrettifyCards(listofcards):
 	
 def CheckHands():
 	counter = 0
+	# For each hand
 	for hand in hands:
+		# If there are cards in the hand
 		if (len(hand) != 0):
+			# Increase the counter
 			counter += 1
+	# If all hands have cards, we're good.
 	if (counter == playercount):
 		return True
 	else:

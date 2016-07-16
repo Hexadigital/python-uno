@@ -56,7 +56,9 @@ def PostIntro():
 
 # This is the text that will be displayed when someone is on their last card.
 def OneCardLeft(name):
+	# If it's player one...
 	if name == 0:
 		print(Style.BRIGHT + "You have declared Uno!" + Style.RESET_ALL)
+	# Otherwise, let's use one of the defined names.
 	else:
 		print(Style.BRIGHT + names[name] + " has declared Uno!" + Style.RESET_ALL)
