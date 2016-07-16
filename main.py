@@ -273,7 +273,14 @@ for i in range(0,playercount):
 tablecard = DrawCard()
 # If the card is a wild, pick a random color
 if (tablecard[0] == "Colorless"):
-	tablecard[0] = choice(colors)
+	if (playerpickfirstwild == 0):
+		tablecard[0] = choice(colors)
+	else:
+		colorchoice = ""
+		# Unless the player specifies a valid color, keep asking them
+		while colorchoice not in ["Green", "Blue", "Yellow", "Red"]:
+			colorchoice = capwords(raw_input("The first card was a Wild. What color would you like to set it to? "))
+		tablecard[0] = colorchoice
 DealerText(PrettifyCards([tablecard]))
 #PostIntro()
 # While everyone has cards, play the game

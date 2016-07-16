@@ -6,6 +6,8 @@ names = ["You", "The guy on your left", "The lady across from you", "The guy on 
 
 playercount = 4
 
+playerpickfirstwild = 0
+
 # This is an example of a random event. There is a 7/1000 chance of an event occuring in this theme.
 def RandomEvent():
 	chance = randint(0, 1000)
