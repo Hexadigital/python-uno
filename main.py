@@ -281,7 +281,7 @@ for i in range(0,playercount):
 	hands += [GenerateHand()]
 
 # A short intro
-#PreIntro()
+PreIntro()
 # Draw a random card from the deck, and place it on the table
 tablecard = DrawCard()
 # If the card is a wild, pick a random color
@@ -295,7 +295,7 @@ if (tablecard[0] == "Colorless"):
 			colorchoice = capwords(raw_input("The first card was a Wild. What color would you like to set it to? "))
 		tablecard[0] = colorchoice
 DealerText(PrettifyCards([tablecard]))
-#PostIntro()
+PostIntro()
 # While everyone has cards, play the game
 while CheckHands():
 	# Figure out whose turn it is
