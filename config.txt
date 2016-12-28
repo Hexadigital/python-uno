@@ -1,5 +1,5 @@
 # Should we show the player what cards they can play?
-easymode = True
+easymode = False
 
 # What theme are we using?
 execfile("themes/gambling.py")
